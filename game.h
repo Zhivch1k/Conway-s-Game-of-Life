@@ -10,12 +10,11 @@ using namespace std;
 class Game
 {
 private:
-	void	init(void);
-	void	game_tick(void);
+	void	init(Map *game_map);
+	void	tick(void);
 
 public:
-	void	run_a_game();
-	void	run_a_game(short map_size_x, short map_size_y);
+	void	run_a_game(void);
 };
 
 #endif //GAME_H

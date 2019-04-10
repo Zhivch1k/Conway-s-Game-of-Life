@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void	Map::set_sizes(short map_size_x, short map_size_y)
+void	Map::set_sizes(short &map_size_x, short &map_size_y)
 {
 	size_x = map_size_x;
 	size_y = map_size_y;
@@ -18,6 +18,7 @@ void	Map::allocate_memory(void)
 
 void	Map::display(void)
 {
+	system("clear");
 	for (int i = 0; i < size_y; i++)
 	{
 		for (int j = 0; j < size_x; j++)
@@ -37,19 +38,9 @@ void	Map::init(void)
 	}
 }
 
-void	Map::set_creature(short x, short y)
+void	Map::set_creature(short &y, short &x)
 {
-	if (x < 0 || x > size_x)
-	{
-		cout << "Error. X coordinate is invalid\n";
-		return ();
-	}
-	if (y < 0 || x > size_x)
-	{
-		cout << "Error. Y coordinate is invalid\n";
-		return ();
-	}
-	map[y][x] = ture;
+	map[y][x] = true;
 }
 
 Map::~Map(void)

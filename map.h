@@ -9,11 +9,11 @@ private:
 	short size_y;
 
 public:
-	void	set_sizes(short, short);
+	void	set_sizes(short &, short &);
 	void	allocate_memory(void);
 	void	display(void);
 	void	init(void);
-	void	set_creature(short, short);
+	void	set_creature(short &, short &);
 	~Map(void);
 };
 
