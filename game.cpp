@@ -9,7 +9,7 @@ void		Game::init(Map *game_map)
 	short		creature_y = 0;
 
 	cout << "Welcome to the Conway's game of life!\n\n";
-	while (x < 0 || y < 0 || x > 100 || y > 100)
+	while (x < 1 || y < 1 || x > 100 || y > 100)
 	{
 		cout << "Please enter the height of the map\n";
 		cin >> y;
@@ -38,4 +38,11 @@ void		Game::run_a_game(void)
 {
 	Map		game_map;
 	init(&game_map);
+
+	/*
+	 * main cycle
+	 */
+
+	cout << "It seems there is no possible moves...\n";
+	cout << "Run me again with a new map setting.\n";
 }

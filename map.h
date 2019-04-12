@@ -4,9 +4,9 @@
 class Map
 {
 private:
-	bool **map;
-	short size_x;
-	short size_y;
+	bool	**map;
+	short	size_x;
+	short	size_y;
 
 public:
 	void	set_sizes(short &, short &);

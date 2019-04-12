@@ -3,9 +3,11 @@
 
 using namespace std;
 
-int main(void)
+int		main(void)
 {
-	Game *new_game = new Game;
-	new_game->run_a_game();
+	Game		new_game;
+
+	system("clear");
+	new_game.run_a_game();
 	return (0);
 }

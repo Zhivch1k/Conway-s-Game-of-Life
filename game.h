@@ -11,7 +11,7 @@ class Game
 {
 private:
 	void	init(Map *game_map);
-	void	tick(void);
+	bool	tick(void);
 
 public:
 	void	run_a_game(void);
