@@ -1,7 +1,10 @@
+#include <iostream>
+#include <unistd.h>
 #include "game.h"
-#include "map.h"
 
-void		Game::init(Map *game_map)
+using namespace std;
+
+void		Game::init(Map *curr_map, Map *prev_map)
 {
 	short		x = -1;
 	short		y = -1;
@@ -17,9 +20,10 @@ void		Game::init(Map *game_map)
 		cin >> x;
 	}
 	cout << "Initializing map with entered sizes...\n\n";
-	game_map->set_sizes(x, y);
-	game_map->allocate_memory();
-	game_map->init();
+
+	curr_map->init(x, y);
+	prev_map->init(x, y);
+
 	cout << "Successfully initialized!\n";
 	cout << "Not it's time to fill the map with creatures\n";
 	while (!(creature_x == -1 && creature_y == -1))
@@ -29,20 +33,76 @@ void		Game::init(Map *game_map)
 		cin >> creature_x >> creature_y;
 		if ((creature_x >= 0 && creature_x < x) &&
 			(creature_y >= 0 && creature_y < y))
-			game_map->set_creature(creature_y, creature_x);
-		game_map->display();
+			curr_map->set_creature(creature_y, creature_x);
+		curr_map->display();
 	}
+	copy_map(curr_map, prev_map);
+}
+
+void		Game::copy_map(Map *from, Map *in)
+{
+	if ((from->size_x != in->size_x) || (from->size_y != in->size_y))
+	{
+		cout << "Error. Different sizes.\n";
+		exit(1);
+	}
+	for (int i = 0; i < from->size_y; i++)
+	{
+		for (int j = 0; j < from->size_x; j++)
+			in->map[i][j] = from->map[i][j];
+	}
+}
+
+bool		Game::check_empty_map(Map *m)
+{
+	for (int i = 0; i < m->size_y; i++)
+	{
+		for (int j = 0; j < m->size_x; j++)
+		{
+			if (m->map[i][j] == 1)
+				return (0);
+		}
+	}
+	return (1);
+}
+
+bool		Game::check_if_maps_stable(Map *curr, Map *prev)
+{
+	for (int i = 0; i < curr->size_y; i++)
+	{
+		for (int j = 0; j < curr->size_x; j++)
+		{
+			if (curr->map[i][j] != prev->map[i][j])
+				return (0);
+		}
+	}
+	return (1);
+}
+
+bool		Game::tick(Map *curr, Map *prev)
+{
+	if (check_empty_map(curr))
+	{
+		cout << "It seems that all cells died.\n";
+		return (0);
+	}
+	if (check_if_maps_stable(curr, prev))
+	{
+		cout << "It seems that generation is stable.\n";
+		return (0);
+	}
+	return (1);
 }
 
 void		Game::run_a_game(void)
 {
-	Map		game_map;
-	init(&game_map);
+	Map		curr_map;
+	Map		prev_map;
 
-	/*
-	 * main cycle
-	 */
+	init(&curr_map, &prev_map);
 
-	cout << "It seems there is no possible moves...\n";
+	while (tick(&curr_map, &prev_map)){}
+
+	//prev_map.display();
 	cout << "Run me again with a new map setting.\n";
 }

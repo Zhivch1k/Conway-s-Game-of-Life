@@ -29,8 +29,10 @@ void	Map::display(void)
 	}
 }
 
-void	Map::init(void)
+void	Map::init(short &map_size_x, short &map_size_y)
 {
+	set_sizes(map_size_x, map_size_y);
+	allocate_memory();
 	for (int i = 0; i < size_y; i++)
 	{
 		for (int j = 0; j < size_x; j++)
