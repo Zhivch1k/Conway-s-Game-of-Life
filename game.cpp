@@ -81,6 +81,21 @@ bool		Game::check_if_maps_stable(Map *curr, Map *prev)
 
 bool		Game::tick(Map *curr, Map *prev)
 {
+	int		num_of_neighbours;
+
+	for (int i = 0; i < prev->size_y; i++)
+	{
+		for (int j = 0; j < prev->size_x; j++)
+		{
+			num_of_neighbours = count_neighbours(prev, j, i);
+			if (num_of_neighbours < 2 || num_of_neighbours > 3)
+				curr->map[i][j] = 0;
+			else if (num_of_neighbours == 3)
+				curr->map[i][j] = 1;
+			else if (num_of_neighbours == 2 && prev->map[i][j] == 1)
+				curr->map[i][j] = 1;
+		}
+	}
 	if (check_empty_map(curr))
 	{
 		cout << "It seems that all cells died.\n";
@@ -91,6 +106,9 @@ bool		Game::tick(Map *curr, Map *prev)
 		cout << "It seems that generation is stable.\n";
 		return (0);
 	}
+	curr->display();
+	copy_map(curr, prev);
+	usleep(1000000);
 	return (1);
 }
 
@@ -103,6 +121,5 @@ void		Game::run_a_game(void)
 
 	while (tick(&curr_map, &prev_map)){}
 
-	//prev_map.display();
 	cout << "Run me again with a new map setting.\n";
 }
