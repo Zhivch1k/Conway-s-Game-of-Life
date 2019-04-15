@@ -82,6 +82,7 @@ bool		Game::check_if_maps_stable(Map *curr, Map *prev)
 bool		Game::tick(Map *curr, Map *prev)
 {
 	int		num_of_neighbours;
+	static int	num_of_generation = 1;
 
 	for (int i = 0; i < prev->size_y; i++)
 	{
@@ -107,6 +108,8 @@ bool		Game::tick(Map *curr, Map *prev)
 		return (0);
 	}
 	curr->display();
+	cout << "Current generation is " << num_of_generation << endl;
+	num_of_generation++;
 	copy_map(curr, prev);
 	usleep(1000000);
 	return (1);
