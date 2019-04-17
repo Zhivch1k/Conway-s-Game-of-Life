@@ -1,7 +1,10 @@
 #ifndef GAME_H
 # define GAME_H
 
-#include "map.h"
+# define GAME_TIME 500000
+
+# include "map.h"
+# include "file_read.h"
 
 class Game
 {
@@ -11,7 +14,6 @@ private:
 	bool	tick(Map *, Map *);
 	bool	check_if_maps_stable(Map *, Map *);
 	bool	check_empty_map(Map *);
-
 	int		count_neighbours(Map *, int, int);
 	bool	check_right_pos(Map *, int, int);
 	bool	check_left_pos(Map *, int, int);

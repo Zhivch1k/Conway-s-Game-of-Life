@@ -9,7 +9,7 @@
 
 ##############                Varaibles                 ##############
 #                                                                    #
-FILES = main game map torus_simulation \
+FILES = main game map torus_simulation file_read \
 
 SRC = $(addsuffix .cpp, $(FILES))
 OBJ = $(addsuffix .o, $(FILES))

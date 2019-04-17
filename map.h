@@ -2,10 +2,12 @@
 # define MAP_H
 
 class Game;
+class File_reading;
 
 class Map
 {
 	friend	Game;
+	friend	File_reading;
 
 private:
 	bool	**map;

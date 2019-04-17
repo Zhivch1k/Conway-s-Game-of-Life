@@ -1,40 +1,53 @@
 #include <iostream>
+#include <fstream>
 #include <unistd.h>
 #include "game.h"
+#include "file_read.h"
 
 using namespace std;
 
 void		Game::init(Map *curr_map, Map *prev_map)
 {
-	short		x = -1;
-	short		y = -1;
-	short		creature_x = 0;
-	short		creature_y = 0;
+	short			x = -1;
+	short			y = -1;
+	short			creature_x = 0;
+	short			creature_y = 0;
+	File_reading	file;
 
 	cout << "Welcome to the Conway's game of life!\n\n";
-	while (x < 1 || y < 1 || x > 100 || y > 100)
-	{
-		cout << "Please enter the height of the map\n";
-		cin >> y;
-		cout << "Please enter the width of the map\n";
+	cout << "Do you want to read a map from a file or fill the map maually?\n";
+	cout << "Enter \'1\' to read from a file\nEnter \'0\' to fill the map manually\n";
+	while (!(x == 1 || x == 0))
 		cin >> x;
-	}
-	cout << "Initializing map with entered sizes...\n\n";
-
-	curr_map->init(x, y);
-	prev_map->init(x, y);
-
-	cout << "Successfully initialized!\n";
-	cout << "Not it's time to fill the map with creatures\n";
-	while (!(creature_x == -1 && creature_y == -1))
+	if (x == 1)
+		file.read_map_from_file(curr_map, prev_map);
+	else
 	{
-		cout << "Enter two numbers x and y to place the creature on that position\n";
-		cout << "To stop adding creatures and run a game enter -1 and -1\n";
-		cin >> creature_x >> creature_y;
-		if ((creature_x >= 0 && creature_x < x) &&
-			(creature_y >= 0 && creature_y < y))
-			curr_map->set_creature(creature_y, creature_x);
-		curr_map->display();
+		x = -1;
+		while (x < 1 || y < 1 || x > 100 || y > 100)
+		{
+			cout << "Please enter the height of the map\n";
+			cin >> y;
+			cout << "Please enter the width of the map\n";
+			cin >> x;
+		}
+		cout << "Initializing map with entered sizes...\n\n";
+
+		curr_map->init(x, y);
+		prev_map->init(x, y);
+
+		cout << "Successfully initialized!\n";
+		cout << "Not it's time to fill the map with creatures\n";
+		while (!(creature_x == -1 && creature_y == -1))
+		{
+			cout << "Enter two numbers x and y to place the creature on that position\n";
+			cout << "To stop adding creatures and run a game enter -1 and -1\n";
+			cin >> creature_x >> creature_y;
+			if ((creature_x >= 0 && creature_x < x) &&
+				(creature_y >= 0 && creature_y < y))
+				curr_map->set_creature(creature_y, creature_x);
+			curr_map->display();
+		}
 	}
 	copy_map(curr_map, prev_map);
 }
@@ -108,10 +121,10 @@ bool		Game::tick(Map *curr, Map *prev)
 		return (0);
 	}
 	curr->display();
-	cout << "Current generation is " << num_of_generation << endl;
+	cout << "Current generation is " << num_of_generation << ";" << endl;
 	num_of_generation++;
 	copy_map(curr, prev);
-	usleep(1000000);
+	usleep(GAME_TIME);
 	return (1);
 }
 
